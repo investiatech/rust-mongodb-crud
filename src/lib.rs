@@ -22,7 +22,7 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     let state = AppState { db };
 
     let app: Router = app_router(state);
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
+    let listener = tokio::net::TcpListener::bind(config.server_address).await?;
 
     println!("Listening on http://0.0.0.0:8000");
     axum::serve(listener, app).await?;

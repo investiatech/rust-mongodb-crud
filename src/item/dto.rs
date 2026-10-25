@@ -10,8 +10,6 @@ pub struct UpdateItemRequest {
     pub name: String,
     pub description: Option<String>,
 }
-#[derive(Deserialize, Serialize)]
-pub struct DeleteItemRequest {}
 
 #[derive(Deserialize, Serialize)]
 pub struct ItemResponse {

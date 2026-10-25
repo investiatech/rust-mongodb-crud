@@ -80,17 +80,8 @@ pub async fn update_item(
     let id = ObjectId::parse_str(&id).map_err(|_| StatusCode::BAD_REQUEST)?;
     let service = ItemService::new(ItemRepository::new(&state.db));
 
-    let updated_item = service
-        .update(id, request)
-        .await
-        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
-
-    if !updated_item {
-        return Err(StatusCode::NOT_FOUND);
-    }
-
     let item = service
-        .find_by_id(id)
+        .update(id, request)
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
         .ok_or(StatusCode::NOT_FOUND)?;

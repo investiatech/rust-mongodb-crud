@@ -39,10 +39,9 @@ impl ItemRepository {
         self.collection.find_one(doc! {"_id": id}).await
     }
 
-    pub async fn update(&self, id: ObjectId, item: Item) -> mongodb::error::Result<bool> {
-        let result = self
-            .collection
-            .update_one(
+    pub async fn update(&self, id: ObjectId, item: Item) -> mongodb::error::Result<Option<Item>> {
+        self.collection
+            .find_one_and_update(
                 doc! {"_id": id},
                 doc! {
                     "$set": {
@@ -51,9 +50,8 @@ impl ItemRepository {
                         }
                 },
             )
-            .await?;
-
-        Ok(result.matched_count > 0)
+            .return_document(mongodb::options::ReturnDocument::After)
+            .await
     }
 
     pub async fn delete(&self, id: ObjectId) -> mongodb::error::Result<bool> {

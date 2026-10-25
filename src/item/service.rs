@@ -33,7 +33,7 @@ impl ItemService {
         &self,
         id: ObjectId,
         request: UpdateItemRequest,
-    ) -> mongodb::error::Result<bool> {
+    ) -> mongodb::error::Result<Option<Item>> {
         let item = Item {
             id: Some(id),
             name: request.name,
